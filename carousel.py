@@ -8,6 +8,8 @@ import time
 
 butid = 0
 
+#updates signal to motor
+#called every time the slider or buttons are modified
 def update():
     global butid
     #print(butid, speed.value())
@@ -21,10 +23,12 @@ def update():
         clockpwm.ChangeDutyCycle(speed.value())
         counterpwm.ChangeDutyCycle(0)
     #print(speed.value())
-    
+
+#MOTOR PINS
 clockpin = 24
 counterpin = 22
 
+#LED PINS
 colorpins = [9,10,11]
 
 g.setmode(g.BCM)
@@ -39,6 +43,7 @@ counterpwm = g.PWM(counterpin, 50)
 clockpwm.start(0)
 counterpwm.start(0)
 
+#Set up GUI
 app = QApplication([])
 window = QWidget()
 layout = QGridLayout()
@@ -49,6 +54,7 @@ app.setWindowIcon(QIcon('cookie.png'))
 
 labelfont = QFont('Courier New', 12)
 
+#TITLE
 title = QLabel('Welcome Aboard the ')
 title.setFont(QFont('Courier New', 24))
 layout.addWidget(title, 0, 0, 1, 2)
@@ -60,6 +66,7 @@ font.setStyle(QFont.StyleItalic)
 title2.setFont(font)
 layout.addWidget(title2, 0, 2)
 
+#DIRECTION (BUTTONS)
 label = QLabel('\t\tLand:')
 #label.setFont(labelfont)
 layout.addWidget(label, 1, 0)
@@ -92,6 +99,7 @@ layout.addWidget(stop, 1, 1)
 layout.addWidget(clock, 2, 1)
 layout.addWidget(counter, 3, 1)
 
+#SPEED (SLIDER)
 label = QLabel('\t\tSet speed:')
 #label.setFont(labelfont)
 layout.addWidget(label, 4, 0)
@@ -106,6 +114,7 @@ speed.setMaximum(100)
 layout.addWidget(speed, 4, 1)
 #layout.addWidget(QLabel('\t\t\t\t\t\t\t\t'), 4, 2)
 
+#RUN THE LIGHTS
 running = True
 
 curlight = 0
@@ -122,6 +131,7 @@ def runlights():
                 g.output(pin, g.LOW)
         time.sleep(20 / (speed.value() + 10))
 
+#Run lights on separate thread
 thread = threading.Thread(target=runlights)
 thread.start()
 
