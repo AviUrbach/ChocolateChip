@@ -110,7 +110,7 @@ def onChange():
 speed.valueChanged.connect(onChange)
 
 speed.setMinimum(0)
-speed.setMaximum(100)
+speed.setMaximum(50) #Even this speed is a bit much for the planes
 layout.addWidget(speed, 4, 1)
 #layout.addWidget(QLabel('\t\t\t\t\t\t\t\t'), 4, 2)
 
